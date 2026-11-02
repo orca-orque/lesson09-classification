@@ -6,7 +6,7 @@ import streamlit as st
 
 APP_TITLE = "뇌졸중 예측 실습실"
 APP_ICON = "🧠"
-DATA_URL = "https://raw.githubusercontent.com/orca-orque/data/main/stroke.csv"
+DATA_URL = "https://raw.githubusercontent.com/orca-orque/data/refs/heads/main/stroke.csv"
 
 # 내_기록 폴더(이 파일과 같은 위치)와 저장 파일
 RECORD_DIR = Path(__file__).parent / "내_기록"
