@@ -6,7 +6,7 @@ import streamlit as st
 
 APP_TITLE = "뇌졸중 예측 실습실"
 APP_ICON = "🧠"
-DATA_URL = "https://raw.githubusercontent.com/orca-orque/data/refs/heads/main/stroke.csv"
+DATA_URL = "https://raw.githubusercontent.com/orca-orque/data/main/stroke.csv"
 
 # 내_기록 폴더(이 파일과 같은 위치)와 저장 파일
 RECORD_DIR = Path(__file__).parent / "내_기록"
@@ -62,7 +62,10 @@ def describe_values(series: pd.Series) -> str:
     values = series.dropna()
     if values.empty:
         return "값 없음"
-    if series.dtype == "object" or values.nunique() <= 2:
+    # 숫자 열이 아니거나(문자 열), 값이 2가지 이하이면 값을 그대로 나열한다.
+    # (pandas 버전에 따라 문자 열의 dtype이 object가 아닌 str일 수 있어서
+    #  dtype 이름이 아니라 '숫자 열인지'로 판별한다.)
+    if not pd.api.types.is_numeric_dtype(series) or values.nunique() <= 2:
         kinds = sorted(values.unique().tolist(), key=str)
         return ", ".join(str(k) for k in kinds)
     return f"숫자 ({values.min():g} ~ {values.max():g})"
